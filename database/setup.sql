@@ -19,7 +19,7 @@ USE `prosjekt1` ;
 -- Table `prosjekt1`.`Forbund`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`Forbund` (
-  `ForbundsNavn` VARCHAR(20) NOT NULL,
+  `ForbundsNavn` VARCHAR(40) NOT NULL,
   `ForbundSymbol` VARCHAR(4) NULL,
   PRIMARY KEY (`ForbundsNavn`))
 ENGINE = InnoDB;
@@ -29,9 +29,10 @@ ENGINE = InnoDB;
 -- Table `prosjekt1`.`Program`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`Program` (
-  `ProgramNavn` VARCHAR(20) NOT NULL,
-  `Forbund_ForbundsNavn` VARCHAR(20) NOT NULL,
+  `ProgramNavn` VARCHAR(40) NOT NULL,
+  `Forbund_ForbundsNavn` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`ProgramNavn`),
+  INDEX `fk_Program_Forbund1_idx` (`Forbund_ForbundsNavn` ASC) VISIBLE,
   CONSTRAINT `fk_Program_Forbund1`
     FOREIGN KEY (`Forbund_ForbundsNavn`)
     REFERENCES `prosjekt1`.`Forbund` (`ForbundsNavn`)
@@ -39,42 +40,31 @@ CREATE TABLE IF NOT EXISTS `prosjekt1`.`Program` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Program_Forbund1_idx` ON `prosjekt1`.`Program` (`Forbund_ForbundsNavn` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
--- Table `prosjekt1`.`VapenType`
+-- Table `prosjekt1`.`VapenTyper`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `prosjekt1`.`VapenType` (
+CREATE TABLE IF NOT EXISTS `prosjekt1`.`VapenTyper` (
   `VapenType` VARCHAR(10) NOT NULL,
-  `Program_ProgramNavn` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`VapenType`),
-  CONSTRAINT `fk_VapenType_Program1`
-    FOREIGN KEY (`Program_ProgramNavn`)
-    REFERENCES `prosjekt1`.`Program` (`ProgramNavn`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`VapenType`))
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_VapenType_Program1_idx` ON `prosjekt1`.`VapenType` (`Program_ProgramNavn` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
 -- Table `prosjekt1`.`AktivitetskravPrimary`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`AktivitetskravPrimary` (
-  `kravTreninger` INT NOT NULL,
-  `kravStevneStarter` VARCHAR(45) NULL,
-  `VapenType_VapenType` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`kravTreninger`),
-  CONSTRAINT `fk_AktivitetskravPrimary_VapenType1`
-    FOREIGN KEY (`VapenType_VapenType`)
-    REFERENCES `prosjekt1`.`VapenType` (`VapenType`)
+  `kravTreninger` INT NULL,
+  `kravStevneStarter` INT NULL,
+  `VapenTyper_VapenType` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`VapenTyper_VapenType`),
+  INDEX `fk_AktivitetskravPrimary_VapenTyper1_idx` (`VapenTyper_VapenType` ASC) VISIBLE,
+  CONSTRAINT `fk_AktivitetskravPrimary_VapenTyper1`
+    FOREIGN KEY (`VapenTyper_VapenType`)
+    REFERENCES `prosjekt1`.`VapenTyper` (`VapenType`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_AktivitetskravPrimary_VapenType1_idx` ON `prosjekt1`.`AktivitetskravPrimary` (`VapenType_VapenType` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -95,9 +85,11 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`Aktivitetslogg` (
   `Bruker_idBruker` INT NOT NULL,
   `Dato` DATETIME NULL,
-  `Kommentar` VARCHAR(45) NULL,
-  `Program_ProgramNavn` VARCHAR(20) NOT NULL,
+  `Kommentar` VARCHAR(80) NULL,
+  `Program_ProgramNavn` VARCHAR(40) NOT NULL,
+  INDEX `fk_Aktivitetslogg_Bruker_idx` (`Bruker_idBruker` ASC) VISIBLE,
   PRIMARY KEY (`Bruker_idBruker`),
+  INDEX `fk_Aktivitetslogg_Program1_idx` (`Program_ProgramNavn` ASC) VISIBLE,
   CONSTRAINT `fk_Aktivitetslogg_Bruker`
     FOREIGN KEY (`Bruker_idBruker`)
     REFERENCES `prosjekt1`.`Bruker` (`idBruker`)
@@ -110,36 +102,33 @@ CREATE TABLE IF NOT EXISTS `prosjekt1`.`Aktivitetslogg` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Aktivitetslogg_Bruker_idx` ON `prosjekt1`.`Aktivitetslogg` (`Bruker_idBruker` ASC) VISIBLE;
-
-CREATE INDEX `fk_Aktivitetslogg_Program1_idx` ON `prosjekt1`.`Aktivitetslogg` (`Program_ProgramNavn` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `prosjekt1`.`AktivitetsKravReserve`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`AktivitetsKravReserve` (
-  `kravStevneStarter` INT NOT NULL,
-  `kravMesterskap` VARCHAR(45) NULL,
-  `VapenType_VapenType` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`kravStevneStarter`),
-  CONSTRAINT `fk_AktivitetsKravReserve_VapenType1`
-    FOREIGN KEY (`VapenType_VapenType`)
-    REFERENCES `prosjekt1`.`VapenType` (`VapenType`)
+  `kravStevneStarter` INT NULL,
+  `kravMesterskap` INT NULL,
+  `VapenTyper_VapenType` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`VapenTyper_VapenType`),
+  INDEX `fk_AktivitetsKravReserve_VapenTyper1_idx` (`VapenTyper_VapenType` ASC) VISIBLE,
+  CONSTRAINT `fk_AktivitetsKravReserve_VapenTyper1`
+    FOREIGN KEY (`VapenTyper_VapenType`)
+    REFERENCES `prosjekt1`.`VapenTyper` (`VapenType`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_AktivitetsKravReserve_VapenType1_idx` ON `prosjekt1`.`AktivitetsKravReserve` (`VapenType_VapenType` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
 -- Table `prosjekt1`.`Medlemskap`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `prosjekt1`.`Medlemskap` (
-  `Forbund_ForbundsNavn` VARCHAR(20) NOT NULL,
+  `Forbund_ForbundsNavn` VARCHAR(40) NOT NULL,
   `Bruker_idBruker` INT NOT NULL,
   PRIMARY KEY (`Forbund_ForbundsNavn`, `Bruker_idBruker`),
+  INDEX `fk_Forbund_has_Bruker_Bruker1_idx` (`Bruker_idBruker` ASC) VISIBLE,
+  INDEX `fk_Forbund_has_Bruker_Forbund1_idx` (`Forbund_ForbundsNavn` ASC) VISIBLE,
   CONSTRAINT `fk_Forbund_has_Bruker_Forbund1`
     FOREIGN KEY (`Forbund_ForbundsNavn`)
     REFERENCES `prosjekt1`.`Forbund` (`ForbundsNavn`)
@@ -152,9 +141,27 @@ CREATE TABLE IF NOT EXISTS `prosjekt1`.`Medlemskap` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Forbund_has_Bruker_Bruker1_idx` ON `prosjekt1`.`Medlemskap` (`Bruker_idBruker` ASC) VISIBLE;
 
-CREATE INDEX `fk_Forbund_has_Bruker_Forbund1_idx` ON `prosjekt1`.`Medlemskap` (`Forbund_ForbundsNavn` ASC) VISIBLE;
+-- -----------------------------------------------------
+-- Table `prosjekt1`.`ProgramVapen`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `prosjekt1`.`ProgramVapen` (
+  `Program_ProgramNavn` VARCHAR(40) NOT NULL,
+  `VapenTyper_VapenType` VARCHAR(10) NOT NULL,
+  INDEX `fk_VapenType_Program1_idx` (`Program_ProgramNavn` ASC) VISIBLE,
+  PRIMARY KEY (`Program_ProgramNavn`, `VapenTyper_VapenType`),
+  INDEX `fk_ProgramVapen_VapenTyper1_idx` (`VapenTyper_VapenType` ASC) VISIBLE,
+  CONSTRAINT `fk_VapenType_Program1`
+    FOREIGN KEY (`Program_ProgramNavn`)
+    REFERENCES `prosjekt1`.`Program` (`ProgramNavn`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ProgramVapen_VapenTyper1`
+    FOREIGN KEY (`VapenTyper_VapenType`)
+    REFERENCES `prosjekt1`.`VapenTyper` (`VapenType`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
