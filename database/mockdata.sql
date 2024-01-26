@@ -45,13 +45,57 @@ insert into Program (ProgramNavn, Forbund_ForbundsNavn) values ('Revolverfelt', 
 select * from Program;
 
 -- Faktisk data i vapentyper
-insert into VapenType (VapenType, Program_ProgramNavn) values ('Pistol 9mm', 'Open');
-insert into VapenType (VapenType, Program_ProgramNavn) values ('Pistol 9mm', 'Standard');
-insert into VapenType (VapenType, Program_ProgramNavn) values ('Pistol 9mm', 'Classic');
-insert into VapenType (VapenType, Program_ProgramNavn) values ('Revolver', 'Revolverfelt');
-insert into VapenType (VapenType, Program_ProgramNavn) values ('Sportrifle', 'Semi Auto Open');
--- Test av vapentype tabell
-select * from VapenType;
+insert into VapenTyper (VapenType) values ('Pistol 9mm');
+insert into VapenTyper (VapenType) values ('Pistol .22');
+insert into VapenTyper (VapenType) values ('Revolver');
+insert into VapenTyper (VapenType) values ('Sportrifle');
+insert into VapenTyper (VapenType) values ('Jaktrifle');
 
--- Data i 
-insert into AktivitetskravPrimary(VapenType_VapenType,kravTreninger
+-- Test av vapentype tabell
+select * from VapenTyper;
+
+-- Data i ProgramVapen
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Open', 'Pistol 9mm');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Standard', 'Pistol 9mm');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Production', 'Pistol 9mm');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Production Optics', 'Pistol 9mm');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Classic', 'Pistol 9mm');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Revolver', 'Revolver');
+insert into ProgramVapen (Program_ProgramNavn, Vapentyper_Vapentype) values ('Semi Auto Standard', 'Sportrifle');
+
+-- Test av hjelpetabell ProgramVapen
+select * from ProgramVapen;
+
+-- Faktisk data i aktivitetskrav reserve
+insert into AktivitetsKravReserve (kravStevneStarter, kravMesterskap, Vapentyper_Vapentype)
+values (10, 1, 'Sportrifle');
+insert into AktivitetsKravReserve (kravStevneStarter, kravMesterskap, Vapentyper_Vapentype)
+values (10, 0, 'Pistol 9mm');
+insert into AktivitetsKravReserve (kravStevneStarter, kravMesterskap, Vapentyper_Vapentype)
+values (10, 1, 'Pistol .22');
+insert into AktivitetsKravReserve (kravStevneStarter, kravMesterskap, Vapentyper_Vapentype)
+values (10, 1, 'Revolver');
+insert into AktivitetsKravReserve (kravStevneStarter, kravMesterskap, Vapentyper_Vapentype)
+values (NULL, NULL, 'Jaktrifle');
+
+-- test av aktivitetskrav reserve tabell
+select * from AktivitetsKravReserve;
+
+-- faktisk data i aktivitetskravprimary
+insert into AktivitetskravPrimary (kravTreninger, kravStevneStarter, Vapentyper_Vapentype)
+values (0, 0, 'Jaktrifle');
+insert into AktivitetskravPrimary (kravTreninger, kravStevneStarter, Vapentyper_Vapentype)
+values (10, 10, 'Sportrifle');
+insert into AktivitetskravPrimary (kravTreninger, kravStevneStarter, Vapentyper_Vapentype)
+values (10, 0, 'Pistol 9mm');
+insert into AktivitetskravPrimary (kravTreninger, kravStevneStarter, Vapentyper_Vapentype)
+values (10, 0, 'Pistol .22');
+insert into AktivitetskravPrimary (kravTreninger, kravStevneStarter, Vapentyper_Vapentype)
+values (10, 0, 'Revolver');
+
+-- test av data i aktivitetskravprimary
+select * from AktivitetskravPrimary;
+
+-- mockdata i aktivitetslogg
+insert into Aktivitetslogg (Bruker_idBruker, Dato, Kommentar, Program_ProgramNavn) 
+values (1, '20230314', 'Organisert trening HPK', 'Minirifle');
