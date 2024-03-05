@@ -1,24 +1,23 @@
+import { useState } from "react"
 import logo from './logo.svg';
 import './App.css';
+import { ListBrukereComponent } from './components/ListBrukereComponent';
+import HeaderComponent from './components/HeaderComponent';
 
 function App() {
+  const [showDarkMode, setShowDarkMode] = useState(false)
+
+  const toggleDarkMode = () => {
+	setShowDarkMode(!showDarkMode)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <HeaderComponent showDarkMode={showDarkMode} toggleDarkMode={toggleDarkMode} />
+      <ListBrukereComponent showDarkMode={showDarkMode} />
     </div>
+    
   );
 }
 
