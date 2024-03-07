@@ -1,23 +1,28 @@
-import { useState } from "react"
-import logo from './logo.svg';
-import './App.css';
-import { ListBrukereComponent } from './components/ListBrukereComponent';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HeaderComponent from './components/HeaderComponent';
+import ListBrukereComponent from './components/ListBrukereComponent';
+import OmComponent from './components/OmComponent';
+import AktivitetsloggComponent from './components/AktivitetsloggComponent';
 
 function App() {
-  const [showDarkMode, setShowDarkMode] = useState(false)
+  const [showDarkMode, setShowDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
-	setShowDarkMode(!showDarkMode)
-  }
-
+    setShowDarkMode(!showDarkMode);
+  };
 
   return (
     <div>
+      <Router>
       <HeaderComponent showDarkMode={showDarkMode} toggleDarkMode={toggleDarkMode} />
-      <ListBrukereComponent showDarkMode={showDarkMode} />
+        <Routes>
+          <Route path="/Brukere" element={<ListBrukereComponent showDarkMode={showDarkMode} />} />
+          <Route path="/Aktivitetslogg" element={<AktivitetsloggComponent />} />
+          <Route path="/Om" element={<OmComponent />} />
+        </Routes>
+      </Router>
     </div>
-    
   );
 }
 

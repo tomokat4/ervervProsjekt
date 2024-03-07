@@ -26,7 +26,6 @@ export const ListBrukereComponent = (props) => {
 
   return (
     <div className="container">
-
         <h2 className="text-center mb-5"> Liste av Brukere</h2>
 	  <Table variant={props.showDarkMode ? "dark" : "light"} bordered hover>
             <thead className={props.showDarkMode ? "bg-dark" : "bg-light"}>
@@ -54,4 +53,4 @@ export const ListBrukereComponent = (props) => {
   )
 }
 
-export default ListBrukereComponent
+export default ListBrukereComponent;
