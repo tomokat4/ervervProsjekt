@@ -1,6 +1,7 @@
 package com.example.springbootbackend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,17 +15,31 @@ import lombok.Setter;
 @Entity
 @Table(name = "aktivitetslogg")
 public class Aktivitetslogg {
+
+    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private double idBruker;
+    private double lognr;
 
     @Column
-    private String fornavn;
+    private String dato;
 
     @Column
-    private String etternavn;
+    private String aktivitet;
 
     @Column
-    private boolean jegerStatus;
+    private String programnavn;
+
+    @Column
+    private String kommentar;
+
+    @Column
+    private String forbund;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JsonIgnore
+    @JoinColumn(name = "brukerId")
+    private Bruker bruker;
+
 
 }

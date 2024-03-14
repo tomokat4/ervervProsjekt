@@ -1,7 +1,9 @@
 package com.example.springbootbackend;
 
+import com.example.springbootbackend.model.Aktivitetslogg;
 import com.example.springbootbackend.model.Bruker;
 import com.example.springbootbackend.repository.BrukerRepository;
+import com.example.springbootbackend.repository.AktivitetsloggRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,19 +20,11 @@ public class SpringbootBackendApplication implements CommandLineRunner {
 	@Autowired
 	private BrukerRepository brukerRepository;
 
+	@Autowired
+	private AktivitetsloggRepository aktivitetsloggRepository;
+
 	@Override
 	public void run(String[] args) throws Exception {
-		Bruker bruker = new Bruker();
-		bruker.setFornavn("Erik");
-		bruker.setEtternavn("Toresen");
-		bruker.setJegerStatus(true);
-		brukerRepository.save(bruker);
-
-		Bruker bruker1 = new Bruker();
-		bruker1.setFornavn("Tore");
-		bruker1.setEtternavn("Mortensen");
-		bruker1.setJegerStatus(false);
-		brukerRepository.save(bruker1);
 	}
 
 }
