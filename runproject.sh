@@ -1,9 +1,4 @@
 #!/bin/bash
-#
-# This is a script i made to run and stop both the Maven spring-boot application for my backend api, and the react frontend
-#
-
-
 
 cat << EOF
 Do you want to start the React, Spring-Boot and Docker elements of devErverv? (Y/n)
