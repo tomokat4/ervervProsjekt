@@ -9,7 +9,7 @@ const OmComponent = () => {
 				<h5 style={{ marginTop: "10vh" }}>
 					Dette er en applikasjon jeg lager for å
 					loggføre sportslig aktiviteter, og få
-					informasjon om hvilke grener du har
+					informasjon om hvilke grener/program du har
 					oppnådd aktivitetsnivået for erverv i.
 				</h5>
 			</h1>
